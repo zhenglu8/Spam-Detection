@@ -1,6 +1,6 @@
 from discord.ext import commands
 import asyncio
-from filter_new import *
+from Filter import *
 
 # discord client
 client = commands.Bot(command_prefix="?")
