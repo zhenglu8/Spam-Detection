@@ -73,9 +73,10 @@ async def on_message(message):
             print("This message is not spam")
             print("Start check message contain ban word")
             # Add Ham to Firebase
+            '''
             db.child("users").push({'discordUsername': str(
                 message.author), 'discordID': message.author.id, 'message': message.content, 'counter': 0})
-
+            '''
             # 1. selling stuff in server
             if message.content.find(wordlist1) != -1:
                 #
@@ -105,16 +106,19 @@ async def on_message(message):
             # If Spam first time
             if func.variable == 1:
                 # Add Spam to Firebase
+                '''
                 db.child("users").push({'discordUsername': str(
                     message.author), 'discordID': message.author.id, 'message': message.content, 'counter': func.variable})
+                '''
                 await message.channel.send('Kevin first Spam')
             # If Spam second time
             elif func.variable == 2:
                 # Add Spam to Firebase
+                '''
                 db.child("users").push({'discordUsername': str(
                     message.author), 'discordID': message.author.id, 'message': message.content, 'counter': func.variable})
                 func.variable = 0
-
+                '''
                 await message.guild.ban(message.author, reason="spam message")
                 await asyncio.sleep(1)
                 await message.guild.unban(message.author)
