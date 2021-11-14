@@ -9,15 +9,15 @@ from nltk.stem import WordNetLemmatizer
 ps = PorterStemmer()
 lemmatizer = WordNetLemmatizer()
 
-example_text = "This is a secret prizes"
+example_text = "award awarding accolade honor honour laurels prize present grant"
 words = word_tokenize(example_text)
 
 for i in words:
     print(ps.stem(i))
     if ps.stem(i) == "spam":
         print("ACTION")
-
+'''
 for i in words:
    print(lemmatizer.lemmatize(i))
-
+'''
 
