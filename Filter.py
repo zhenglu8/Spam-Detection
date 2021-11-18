@@ -6,8 +6,8 @@ import re
 sms_spam = pd.read_csv('SMSSpamCollection', sep='\t',
                        header=None, names=['Label', 'SMS'])
 
-#sms_spam.shape
-#sms_spam.head()
+# sms_spam.shape
+# sms_spam.head()
 
 sms_spam['Label'].value_counts(normalize=True)
 
@@ -21,8 +21,8 @@ training_test_index = round(len(data_randomized) * 0.8)
 training_set = data_randomized[:training_test_index].reset_index(drop=True)
 testing_set = data_randomized[training_test_index:].reset_index(drop=True)
 
-#training_set.shape
-#test_set.shape
+# training_set.shape
+# test_set.shape
 
 # Analyze percentage of spam hand ham in training set
 training_set['Label'].value_counts(normalize=True)
@@ -45,7 +45,8 @@ for sms in training_set['SMS']:
 vocabulary = list(set(vocabulary))
 len(vocabulary)
 
-word_counts_per_sms = {unique_word: [0] * len(training_set['SMS']) for unique_word in vocabulary}
+word_counts_per_sms = {unique_word: [
+    0] * len(training_set['SMS']) for unique_word in vocabulary}
 
 for index, sms in enumerate(training_set['SMS']):
     for word in sms:
@@ -85,12 +86,15 @@ parameters_ham = {unique_word: 0 for unique_word in vocabulary}
 
 # Calculate parameters
 for word in vocabulary:
-    n_word_given_spam = spam_messages[word].sum()  # spam_messages already defined
-    p_word_given_spam = (n_word_given_spam + alpha) / (n_spam + alpha * n_vocabulary)
+    # spam_messages already defined
+    n_word_given_spam = spam_messages[word].sum()
+    p_word_given_spam = (n_word_given_spam + alpha) / \
+        (n_spam + alpha * n_vocabulary)
     parameters_spam[word] = p_word_given_spam
 
     n_word_given_ham = ham_messages[word].sum()  # ham_messages already defined
-    p_word_given_ham = (n_word_given_ham + alpha) / (n_ham + alpha * n_vocabulary)
+    p_word_given_ham = (n_word_given_ham + alpha) / \
+        (n_ham + alpha * n_vocabulary)
     parameters_ham[word] = p_word_given_ham
 
 
@@ -113,11 +117,11 @@ def classify(message):
 
     # Return 0 if the message is Ham
     if p_ham_given_message >= p_spam_given_message:
-        # print('This message is Ham')
+        #print('This message is Ham')
         return 0
     # Return 1 if the message is Spam
     elif p_ham_given_message < p_spam_given_message:
-        # print('This message is Spam')
+        #print('This message is Spam')
         return 1
 
 
@@ -129,6 +133,9 @@ classify('NICE! You have won $1000! Click here')
 classify("WINNER! Click here to unlock prizes")
 classify("You have won $1000! Click here")
 """
+# classify("deduct")
+# classify("Warning")
+#classify('Counter + 1')
 
 """# Accuracy testing
 def classify_testing_set(message):
