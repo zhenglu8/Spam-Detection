@@ -76,7 +76,8 @@ async def on_message(message):
             "Not spam, start ban word")
 
         counter = 0
-        people = db.child("Messages").order_by_child(
+        '''
+        people = db.child("Messages").child(message.author.id).order_by_child(
             "counter").equal_to(1).get()
         for person in people.each():
             print(person.val()['discordUsername'])
@@ -87,38 +88,58 @@ async def on_message(message):
                 #print("time to update")
             else:
                 counter = 0
-
-        db.child("Messages").push({'discordUsername': str(
-            message.author), 'discordID': message.author.id, 'message': message.content, 'counter': counter})
-
+        
+        db.child("Messages").child(message.author.id).push({'discordUsername': str(
+            message.author), 'discordID': message.author.id, 'message': message.content, 'status': 'ham', 'counter': 0})
+        '''
         # check in ban word list
         check = any(item in stemming for item in new_list)
         if check:
             await message.channel.send('Warning')
-            print("Not spam and ban word")
+            print("Found in Banned Word List")
         else:
-            print("Not spam and Not ban word")
+            print("Not Found in Banned Word List")
     else:
         # Spam message, func.variable+1
-        func.variable = func.variable + 1
-        # If Spam first time
-        if func.variable == 1:
-            # Add Spam to Firebase
-            db.child("Messages").push({'discordUsername': str(
-                message.author), 'discordID': message.author.id, 'message': message.content, 'counter': func.variable})
-            await message.channel.send('Counter + 1')
+        #func.variable = func.variable + 1
+        '''
+        people = db.child("Messages").child(message.author.id).order_by_child(
+            "counter").equal_to(0).get()
+        for person in people.each():
+            print(person.val()['discordUsername'])
+            if person.val()['discordUsername'] == str(message.author) and person.val()['counter'] == 0 and person.val()['status'] == 'ham':
+                if person.val()['counter'] != 1:
+                    # Add Spam to Firebase
+
+
+        people1 = db.child("Messages").child(message.author.id).order_by_child(
+            "counter").equal_to(0).get()
+
+        for person1 in people1.each():
+
+            if person1.val()['discordID'] == message.author.id:
+                print("SPAM#1")
+                db.child("Messages").child(message.author.id).push({'discordUsername': str(
+                    message.author), 'discordID': message.author.id, 'message': message.content, 'status': 'spam', 'counter': 1})
+                await message.channel.send('Counter + 1')
+                return
 
         # If Spam second time
-        elif func.variable == 2:
-            # Add Spam to Firebase
-            db.child("Messages").push({'discordUsername': str(
-                message.author), 'discordID': message.author.id, 'message': message.content, 'counter': func.variable})
-            func.variable = 0
-            await message.guild.ban(message.author, reason="spam message")
-            await asyncio.sleep(1)
-            await message.guild.unban(message.author)
-            # await message.channel.send('sends spam message')
-            print("spam message sender kick out")
+        people = db.child("Messages").child(message.author.id).order_by_child(
+            "counter").equal_to(1).get()
+        for person in people.each():
+            print(person.val()['discordUsername'])
+            if person.val()['discordUsername'] == str(message.author) and person.val()['counter'] == 1 and person.val()['status'] == 'spam':
+                # Add Spam to Firebase
+                db.child("Messages").child(message.author.id).push({'discordUsername': str(
+                    message.author), 'discordID': message.author.id, 'message': message.content, 'status': 'spam', 'counter': 2})
+                #func.variable = 0
+                '''
+        await message.guild.ban(message.author, reason="spam message")
+        await asyncio.sleep(1)
+        await message.guild.unban(message.author)
+        # await message.channel.send('sends spam message')
+        print("spam message sender kick out")
 
 # Use your own token
 client.run("OTA2Mjk1MTQ4MjQ0MjM4NDQ2.YYWjIQ.aHLitHDjuTkmWo4NOqHhAUlQtRU")
