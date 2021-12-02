@@ -125,18 +125,19 @@ def classify(message):
         return 1
 
 
-"""# Classify testing
+"""
+# Classify testing
 classify('WINNER!! This is the secret code to unlock the money: C3421.')
 classify("Sounds good, Tom, then see u there")
 
 classify('NICE! You have won $1000! Click here')
 classify("WINNER! Click here to unlock prizes")
 classify("You have won $1000! Click here")
-"""
+
 # classify("deduct")
 # classify("Warning")
 #classify('Counter + 1')
-
+"""
 """# Accuracy testing
 def classify_testing_set(message):
     message = re.sub('\W', ' ', message)

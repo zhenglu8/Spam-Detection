@@ -4,8 +4,9 @@ from nltk.tokenize import word_tokenize
 import nltk
 from nltk.corpus import wordnet
 
-nltk.download('punkt')
-nltk.download('wordnet')
+# May need to download wordnet first
+# nltk.download('punkt')
+# nltk.download('wordnet')
 
 ps = PorterStemmer()
 lemmatizer = WordNetLemmatizer()
@@ -13,6 +14,7 @@ lemmatizer = WordNetLemmatizer()
 # create banned word list in here
 spam_word_list = "cash discount prize free urgent"
 words = word_tokenize(spam_word_list)
+# print(words)
 
 ban_word = []
 # Synonyms
@@ -26,7 +28,7 @@ for i in range(len(ban_word)):
     ban_word[i] = ban_word[i].lower()
 # print(ban_word)
 
-# remove repeat word from list
+# remove repeated word from list
 ban_word = list(dict.fromkeys(ban_word))
 # print(ban_word)
 
@@ -35,7 +37,7 @@ ban_word = list(dict.fromkeys(ban_word))
 stemming_list = []
 for i in ban_word:
     stemming_list.append(ps.stem(i))
-print(stemming_list)
+# print(stemming_list)
 
 # Remove punctuation
 new_list = []
